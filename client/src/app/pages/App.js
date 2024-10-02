@@ -19,19 +19,40 @@ function App() {
 
   const { loginUser } = useLogin();
 
+  const resPages = React.useMemo(() => {
+    const res = [];
+
+    pages.forEach((page) => {
+      if (page.sub_menu.length > 0) {
+        page.sub_menu.forEach((val) => {
+          res.push(val);
+        });
+      } else {
+        res.push(page);
+      }
+    });
+
+    return res;
+  }, []);
+
   return (
-    <AdminContext.Provider value={loginUser}>
+    <AdminContext.Provider
+      value={{
+        seq: 1,
+        name: "케빈",
+      }}
+    >
       <BrowserRouter basename={process.env.BASE_URL}>
         <Routes>
-          {pages &&
-            pages.map(({ element, label, layout, url }, index) => {
+          {resPages &&
+            resPages.map(({ element, label, layout, url, sub_menu }, index) => {
               const suspenseElement = (
                 <SuspensePageComponent layout={layout}>
                   <Suspense fallback={<PageLoadingComponent />}>{element}</Suspense>
                 </SuspensePageComponent>
               );
 
-              return <Route exact key={`valueplus-route-${label}`} path={url} element={suspenseElement} />;
+              return <Route exact key={`haesol-${label}`} path={url} element={suspenseElement} />;
             })}
         </Routes>
       </BrowserRouter>

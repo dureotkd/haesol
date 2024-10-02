@@ -1,84 +1,61 @@
 import React from "react";
 
-const Login = React.lazy(() => import("../../features/login/pages/Login"));
-const SalesManage = React.lazy(() => import("../../features/salesManage/pages/SalesManage"));
-const SalesMemo = React.lazy(() => import("../../features/salesMemo/pages/SalesMemo"));
-const SalesMemoList = React.lazy(() => import("../../features/salesMemoList/pages/SalesMemoList"));
-const SalesCompanyGradeList = React.lazy(() =>
-  import("../../features/salesCompanyGradeList/pages/SalesCompanyGradeList"),
-);
-const ItemManage = React.lazy(() => import("../../features/itemManage/pages/ItemManage"));
-const ContractManage = React.lazy(() => import("../../features/contractManage/pages/ContractManage"));
-
-const Test = () => {
-  return <div>Test</div>;
-};
+const Login = React.lazy(() => import("../../features/login/Page"));
+const BaseInfoCompany = React.lazy(() => import("../../features/baseinfo/company/Page"));
+const BaseInfoEmployee = React.lazy(() => import("../../features/baseinfo/employee/Page"));
 
 const pages = [
   {
-    url: "/Login",
+    url: "login",
     label: "로그인",
     element: <Login />,
     sub_menu: [],
     layout: false,
-    nav: false,
   },
-  // {
-  //   url: "/Test",
-  //   label: "로그인",
-  //   element: <Test />,
-  //   sub_menu: [],
-  //   layout: true,
-  //   nav: false,
-  // },
   {
-    url: "/SalesManage",
-    label: "영업관리",
-    element: <SalesManage />,
-    sub_menu: [],
+    url: "baseinfo",
+    label: "기본정보",
     layout: true,
-    nav: true,
+    sub_menu: [
+      {
+        url: "/baseinfo/company",
+        label: "기업정보입력",
+        element: <BaseInfoCompany />,
+        layout: true,
+        nav: true,
+      },
+      {
+        url: "/baseinfo/employee",
+        label: "직원정보입력",
+        element: <BaseInfoEmployee />,
+        layout: true,
+        nav: true,
+      },
+    ],
   },
   {
-    url: "/SalesMemoList",
-    label: "상담메모",
-    element: <SalesMemoList />,
-    sub_menu: [],
+    url: "tax",
+    label: "세액입력",
     layout: true,
-    nav: true,
+    sub_menu: [],
   },
   {
-    url: "/SalesCompanyGradeList",
-    label: "영업등급",
-    element: <SalesCompanyGradeList />,
-    sub_menu: [],
+    url: "salary",
+    label: "급여",
     layout: true,
-    nav: true,
+    sub_menu: [],
   },
   {
-    url: "/ContractManage",
-    label: "계약관리",
-    element: <ContractManage />,
-    sub_menu: [],
+    url: "bill",
+    label: "계약서 및 명세서",
     layout: true,
-    nav: true,
-  },
-  // {
-  //   url: "/ItemManage",
-  //   label: "모델관리",
-  //   element: <ItemManage />,
-  //   sub_menu: [],
-  //   layout: true,
-  //   nav: true,
-  // },
-
-  {
-    url: "/SalesMemo",
-    label: "영업관리[메모]",
-    element: <SalesMemo />,
     sub_menu: [],
-    layout: false,
-    nav: false,
+  },
+  {
+    url: "etc",
+    label: "기타",
+    layout: true,
+    sub_menu: [],
   },
 ];
 

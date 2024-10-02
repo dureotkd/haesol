@@ -14,22 +14,20 @@ function AdminLayout(props) {
 
   const [adminMenu, setAdminMenu] = React.useState(false);
 
-  // React.useEffect(() => {
-  //   const removeAdminMenu = () => {};
-
-  //   $("body").addEventListener("click", removeAdminMenu);
-
-  //   return () => {
-  //     $("body").addEventListener("click", removeAdminMenu);
-  //   };
-  // }, []);
-
   const navigation = useNavigate();
   const location = useLocation();
 
   const loginUser = React.useContext(AdminContext);
 
-  const handleMenu = React.useCallback(
+  const asidePages = React.useMemo(() => {
+    return pages.filter((page) => page.layout);
+  }, []);
+
+  const pageArray = React.useMemo(() => {
+    return window.location.pathname.split("/");
+  }, []);
+
+  const handlePage = React.useCallback(
     (link) => {
       navigation(link);
     },
@@ -38,18 +36,13 @@ function AdminLayout(props) {
 
   return (
     <>
-      <header
-        style={{
-          backgroundColor: "#000",
-          width: "100%",
-          height: 60,
-          position: "fixed",
-          top: 0,
-          zIndex: 100,
-        }}
-      >
+      <header className="top-header">
         <nav className="navi-menu">
-          <div style={{ display: "flex" }}>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <i
+              className="fas fa-bars"
+              style={{ color: "#fff", marginRight: 18, fontSize: 24, marginTop: 6, cursor: "pointer" }}
+            ></i>
             <div
               className="logo-txt"
               style={{
@@ -58,9 +51,9 @@ function AdminLayout(props) {
                 marginRight: 100,
               }}
             >
-              ValuePlus ERP
+              HAESOL Admin
             </div>
-            <div className="menu-wrap" style={{ display: "flex", height: 60 }}>
+            {/* <div className="menu-wrap" style={{ display: "flex", height: 60 }}>
               {pages &&
                 pages.map(({ label, url, nav, sub_menu }, index) => {
                   if (nav === false) {
@@ -86,18 +79,10 @@ function AdminLayout(props) {
                       onClick={handleMenu.bind(this, url)}
                     >
                       {label}
-                      {/* {sub_menu &&
-                        sub_menu.map(({ sub_name }, sub_index) => {
-                          return (
-                            <ul key={`sub-menu-${sub_index}`} className="sub-menu-wrap">
-                              <li>{sub_name}</li>
-                            </ul>
-                          );
-                        })} */}
                     </ul>
                   );
                 })}
-            </div>
+            </div> */}
           </div>
 
           <div
@@ -122,7 +107,61 @@ function AdminLayout(props) {
           </div>
         </nav>
       </header>
-      <section className="content-con">{children}</section>
+      <div style={{ display: "flex" }}>
+        <aside>
+          {asidePages &&
+            asidePages.map((item) => {
+              const active = item.url === pageArray[1] ? "main-active" : "";
+
+              return (
+                <div
+                  key={`main-menu-${item.url}`}
+                  className="aside-item"
+                  style={{ display: "flex", flexDirection: "column" }}
+                >
+                  <div
+                    className={`${active}`}
+                    style={{ display: "flex", alignItems: "center", width: "100%", justifyContent: "space-between" }}
+                  >
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <img src={`/images/ic19_menu_corp.png`} alt="company-img" style={{ width: 20, marginTop: 3 }} />
+                      <span style={{ marginLeft: 12 }}>{item.label}</span>
+                    </div>
+                    <i className="fas fa-angle-down" style={{ color: "#ccc" }}></i>
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                    {item.sub_menu &&
+                      item.sub_menu.map((val) => {
+                        if (!val.nav) {
+                          return true;
+                        }
+
+                        const active = val.url === window.location.pathname ? "sub-active" : "";
+
+                        return (
+                          <span
+                            className={`${active}`}
+                            key={`sub-menu-${val.url}`}
+                            onClick={handlePage.bind(this, val.url)}
+                            style={{
+                              paddingTop: 6,
+                              paddingBottom: 6,
+                              marginTop: 12,
+                              paddingLeft: 42,
+                              cursor: "pointer",
+                            }}
+                          >
+                            {val.label}
+                          </span>
+                        );
+                      })}
+                  </div>
+                </div>
+              );
+            })}
+        </aside>
+        <section className="content-con">{children}</section>
+      </div>
     </>
   );
 }

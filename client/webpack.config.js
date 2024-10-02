@@ -50,7 +50,7 @@ module.exports = {
     hot: true,
     compress: true, // 문자열 압축 관련여부
     host: "localhost", // dev-server host명
-    port: 3000, // dev-server port명
+    port: 3001, // dev-server port명
     historyApiFallback: true, // 모든 경로를 index.html로 리디렉션 해줘야한다.
     open: true,
   },

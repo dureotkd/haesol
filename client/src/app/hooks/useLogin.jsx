@@ -20,7 +20,7 @@ function useLogin() {
           const pageName = paths[paths.length - 1].toLocaleUpperCase();
 
           if (!["LOGIN"].includes(pageName)) {
-            window.location.href = `${process.env.BASE_URL}/Login`;
+            window.location.href = `/login`;
           }
         } catch {}
       }
